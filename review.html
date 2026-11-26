@@ -5,7 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>맛집 리뷰 - 맛있겠다</title>
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .review-form, .review-item {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+    }
+
+    .review-form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .review-form input,
+    .review-form select,
+    .review-form textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin-top: 7px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+    }
+
+    .review-form button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 7px;
+      background: #333;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #restaurantImage {
+      display: none;
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      margin-top: 15px;
+      border-radius: 10px;
+    }
+
+    .review-item h3 {
+      margin-bottom: 5px;
+    }
+
+    .stars {
+      color: orange;
+      font-size: 20px;
+    }
+
+    .review-date {
+      color: gray;
+      font-size: 12px;
+    }
+
+    #message {
+      margin-top: 12px;
+    }
+  </style>
 </head>
+
 <body>
   <header>
     <a href="index.html" class="logo">맛있겠다</a>
@@ -18,7 +92,210 @@
 
   <main>
     <h1>맛집 리뷰</h1>
-    <p>준비 중이에요!</p>
+    <p>방문한 음식점의 솔직한 후기를 남겨주세요!</p>
+
+    <section class="review-form">
+      <h2>리뷰 작성하기</h2>
+
+      <form id="reviewForm">
+        <label for="restaurant">음식점 선택</label>
+        <select id="restaurant" required>
+          <option value="">음식점을 선택해주세요</option>
+        </select>
+
+        <img id="restaurantImage" alt="선택한 음식점 사진">
+
+        <label for="author">닉네임</label>
+        <input
+          id="author"
+          type="text"
+          placeholder="닉네임을 입력해주세요"
+          maxlength="30"
+          required
+        >
+
+        <label for="rating">별점</label>
+        <select id="rating" required>
+          <option value="">별점을 선택해주세요</option>
+          <option value="5">★★★★★ (5점)</option>
+          <option value="4">★★★★☆ (4점)</option>
+          <option value="3">★★★☆☆ (3점)</option>
+          <option value="2">★★☆☆☆ (2점)</option>
+          <option value="1">★☆☆☆☆ (1점)</option>
+        </select>
+
+        <label for="content">리뷰 내용</label>
+        <textarea
+          id="content"
+          rows="5"
+          placeholder="음식과 분위기는 어땠나요?"
+          maxlength="1000"
+          required
+        ></textarea>
+
+        <button type="submit">리뷰 등록하기</button>
+        <p id="message"></p>
+      </form>
+    </section>
+
+    <section>
+      <h2>방문자 리뷰</h2>
+      <div id="reviewList">리뷰를 불러오는 중입니다...</div>
+    </section>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // 여기에 Supabase 정보를 입력하세요.
+    const SUPABASE_URL = "https://aamwhtmikcdzcvxhxxsr.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_lBUrHe7IgNLJfC5Fm1Klwg_qDDDjV1I";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const restaurantSelect = document.getElementById("restaurant");
+    const restaurantImage = document.getElementById("restaurantImage");
+    const reviewList = document.getElementById("reviewList");
+    const message = document.getElementById("message");
+
+    let restaurants = [];
+
+    // 음식점 목록 불러오기
+    async function loadRestaurants() {
+      const { data, error } = await supabaseClient
+        .from("restaurants")
+        .select("*")
+        .order("id");
+
+      if (error) {
+        restaurantSelect.innerHTML =
+          '<option value="">음식점 목록을 불러오지 못했습니다.</option>';
+        message.textContent = "음식점 불러오기 오류: " + error.message;
+        return;
+      }
+
+      restaurants = data;
+
+      data.forEach((restaurant) => {
+        const option = document.createElement("option");
+        option.value = restaurant.id;
+        option.textContent = restaurant.name;
+        restaurantSelect.appendChild(option);
+      });
+    }
+
+    // 선택한 음식점 사진 표시
+    restaurantSelect.addEventListener("change", () => {
+      const selected = restaurants.find(
+        (item) => String(item.id) === restaurantSelect.value
+      );
+
+      if (selected && selected.image) {
+        restaurantImage.src = selected.image;
+        restaurantImage.style.display = "block";
+      } else {
+        restaurantImage.style.display = "none";
+      }
+    });
+
+    // 리뷰 목록 불러오기
+    async function loadReviews() {
+      const { data, error } = await supabaseClient
+        .from("reviews")
+        .select("id, author, rating, content, created_at, restaurants(name)")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        reviewList.textContent =
+          "리뷰를 불러오지 못했습니다: " + error.message;
+        return;
+      }
+
+      reviewList.innerHTML = "";
+
+      if (data.length === 0) {
+        reviewList.textContent = "아직 등록된 리뷰가 없습니다.";
+        return;
+      }
+
+      data.forEach((review) => {
+        const item = document.createElement("article");
+        item.className = "review-item";
+
+        const title = document.createElement("h3");
+        title.textContent = review.restaurants?.name || "음식점";
+
+        const stars = document.createElement("div");
+        stars.className = "stars";
+        stars.textContent =
+          "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+
+        const author = document.createElement("p");
+        author.textContent = "작성자: " + review.author;
+
+        const content = document.createElement("p");
+        content.textContent = review.content;
+
+        const date = document.createElement("p");
+        date.className = "review-date";
+        date.textContent = new Date(review.created_at).toLocaleString("ko-KR");
+
+        item.append(title, stars, author, content, date);
+        reviewList.appendChild(item);
+      });
+    }
+
+    // 리뷰 등록하기
+    document.getElementById("reviewForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const restaurantId = restaurantSelect.value;
+      const author = document.getElementById("author").value.trim();
+      const rating = Number(document.getElementById("rating").value);
+      const content = document.getElementById("content").value.trim();
+
+      if (!restaurantId || !author || !rating || !content) {
+        message.textContent = "모든 항목을 입력해주세요.";
+        return;
+      }
+
+      const button = event.target.querySelector("button");
+      button.disabled = true;
+      message.textContent = "리뷰를 등록하고 있습니다...";
+
+      const { error } = await supabaseClient
+        .from("reviews")
+        .insert([{
+          restaurant_id: Number(restaurantId),
+          author: author,
+          rating: rating,
+          content: content
+        }]);
+
+      button.disabled = false;
+
+      if (error) {
+        message.textContent = "등록에 실패했습니다: " + error.message;
+        return;
+      }
+
+      message.textContent = "리뷰가 등록되었습니다!";
+      document.getElementById("content").value = "";
+      document.getElementById("rating").value = "";
+
+      await loadReviews();
+    });
+
+    // 페이지 처음 열릴 때 실행
+    async function initialize() {
+      await loadRestaurants();
+      await loadReviews();
+    }
+
+    initialize();
+  </script>
 </body>
 </html>
