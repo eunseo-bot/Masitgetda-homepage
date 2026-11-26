@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  background: #fff8ec;
+  color: #4a3426;
+  font-family: sans-serif;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 24px;
+  background: #ff9f43;
+}
+.logo {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+nav {
+  display: flex;
+  gap: 20px;
+}
+main {
+  text-align: center;
+  padding: 40px 20px;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+.card {
+  width: 160px;
+  padding: 30px 10px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-size: 1.1rem;
+  line-height: 2;
+}
