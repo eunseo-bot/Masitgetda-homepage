@@ -28,7 +28,7 @@ images/        음식점 사진
 
 ## 배포
 
-GitHub Pages로 배포되어 있습니다. (Settings > Pages에서 main 브랜치로 배포)
+GitHub Pages로 배포 예정입니다. (Settings > Pages에서 main 브랜치로 배포)
 
 ## GitHub 활동 요약
 
@@ -37,6 +37,10 @@ GitHub Pages로 배포되어 있습니다. (Settings > Pages에서 main 브랜�
 - `feature/layout` → 메인 페이지 및 전체 레이아웃 구성
 - `feature/review` → 맛집 리뷰 기능 추가
 - `feature/roulette` → 메뉴 룰렛 게임 및 마스코트 추가
+
+## 적용한 소프트웨어 공학 이론
+
+**반복적·점진적 개발(Iterative & Incremental Development)** 방식을 적용했습니다. 전체 기능을 한 번에 개발하지 않고, 기능 단위(레이아웃 → 리뷰 → 룰렛 → 리뷰 전체보기)로 쪼개어 각각을 하나의 반복(iteration)으로 삼아 개발 → 커밋 → PR → merge하는 과정을 거쳤습니다. 이렇게 작은 단위로 나누어 진행하니 매 단계마다 동작하는 결과물을 확인할 수 있었고, 한 기능의 문제가 다른 기능 개발에 영향을 주지 않아 안정적으로 작업할 수 있었습니다.
 
 ## 회고
 
