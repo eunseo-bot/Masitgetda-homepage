@@ -77,6 +77,84 @@
     #message {
       margin-top: 12px;
     }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-outline {
+      padding: 8px 14px;
+      border: 1px solid #333;
+      border-radius: 7px;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #allReviewsModal {
+      width: 90%;
+      max-width: 700px;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: none;
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+    }
+
+    #allReviewsModal::backdrop {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    #allReviewsModal .close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      border: none;
+      background: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .review-controls {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .review-controls label {
+      margin-top: 0;
+      font-weight: bold;
+    }
+
+    .review-controls select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .group-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal !important;
+    }
+
+    .restaurant-group {
+      margin-top: 24px;
+    }
+
+    .restaurant-group h3 {
+      border-bottom: 2px solid #333;
+      padding-bottom: 6px;
+    }
   </style>
 </head>
 
@@ -139,9 +217,33 @@
     </section>
 
     <section>
-      <h2>방문자 리뷰</h2>
+      <div class="section-header">
+        <h2>방문자 리뷰</h2>
+        <button type="button" class="btn-outline" id="openAllReviews">전체보기</button>
+      </div>
       <div id="reviewList">리뷰를 불러오는 중입니다...</div>
     </section>
+
+    <dialog id="allReviewsModal" aria-labelledby="allReviewsTitle">
+      <button type="button" class="close" id="closeAllReviews" aria-label="닫기">✕</button>
+      <h2 id="allReviewsTitle">방문자 리뷰 전체보기</h2>
+
+      <div class="review-controls">
+        <label for="sortSelect">정렬</label>
+        <select id="sortSelect">
+          <option value="latest">최신순</option>
+          <option value="oldest">오래된순</option>
+          <option value="rating">별점 높은순</option>
+        </select>
+
+        <label class="group-toggle">
+          <input type="checkbox" id="groupByRestaurant">
+          음식점별로 보기
+        </label>
+      </div>
+
+      <div id="allReviewsList"></div>
+    </dialog>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
