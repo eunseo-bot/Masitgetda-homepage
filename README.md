@@ -1,2 +1,43 @@
-# Masitgetda-homepage
-맛집 소개 미니 홈페이지
+# 맛있겠다 (Masitgetda)
+
+학교 주변 맛집을 찾고, 고르고, 리뷰까지 남길 수 있는 미니 홈페이지입니다.
+
+## 왜 만들었나요?
+
+"오늘 뭐 먹지?"를 매번 고민하는 게 귀찮아서, 메뉴를 대신 골라주고 다른 사람들의 리뷰도 한눈에 볼 수 있는 페이지가 있으면 좋겠다고 생각해 만들었습니다.
+
+## 주요 기능
+
+- **메인 페이지** (`index.html`) — 서비스 소개 및 메뉴 카드
+- **맛집 지도** (`map.html`) — 학교 주변 맛집 지도 (준비 중)
+- **메뉴 룰렛** (`roulette.html`, `roulette.js`, `roulette.css`) — 밥/카페 스테이지를 골라 룰렛을 돌리면 마스코트가 메뉴를 추천
+- **맛집 리뷰** (`review.html`) — Supabase와 연동해 음식점 선택, 별점, 리뷰 작성 및 조회 가능
+
+## 페이지 구성
+
+```
+index.html     메인 페이지
+map.html       맛집 지도
+roulette.html  메뉴 룰렛 게임
+review.html    맛집 리뷰 작성/조회
+style.css      공통 스타일
+roulette.css   룰렛 페이지 스타일
+roulette.js    룰렛 게임 로직
+images/        음식점 사진
+```
+
+## 배포
+
+GitHub Pages로 배포되어 있습니다. (Settings > Pages에서 main 브랜치로 배포)
+
+## GitHub 활동 요약
+
+기능 단위로 브랜치를 나누어 작업한 뒤 PR을 통해 `main`에 merge했습니다.
+
+- `feature/layout` → 메인 페이지 및 전체 레이아웃 구성
+- `feature/review` → 맛집 리뷰 기능 추가
+- `feature/roulette` → 메뉴 룰렛 게임 및 마스코트 추가
+
+## 회고
+
+기능별로 브랜치를 나눠 작업하니 각자 맡은 부분을 독립적으로 개발하고 PR로 확인하며 merge할 수 있어 편리했습니다. 다음에는 맛집 지도 기능도 마무리해보고 싶습니다.
