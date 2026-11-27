@@ -263,7 +263,15 @@
     const reviewList = document.getElementById("reviewList");
     const message = document.getElementById("message");
 
+    const openAllReviewsBtn = document.getElementById("openAllReviews");
+    const closeAllReviewsBtn = document.getElementById("closeAllReviews");
+    const allReviewsModal = document.getElementById("allReviewsModal");
+    const allReviewsList = document.getElementById("allReviewsList");
+    const sortSelect = document.getElementById("sortSelect");
+    const groupByRestaurantCheckbox = document.getElementById("groupByRestaurant");
+
     let restaurants = [];
+    let allReviewsData = [];
 
     // 음식점 목록 불러오기
     async function loadRestaurants() {
@@ -316,14 +324,20 @@
         return;
       }
 
-      reviewList.innerHTML = "";
+      allReviewsData = data;
+      renderReviewList(reviewList, data);
+    }
 
-      if (data.length === 0) {
-        reviewList.textContent = "아직 등록된 리뷰가 없습니다.";
+    // 리뷰 목록을 컨테이너에 렌더링
+    function renderReviewList(container, reviews) {
+      container.innerHTML = "";
+
+      if (reviews.length === 0) {
+        container.textContent = "아직 등록된 리뷰가 없습니다.";
         return;
       }
 
-      data.forEach((review) => {
+      reviews.forEach((review) => {
         const item = document.createElement("article");
         item.className = "review-item";
 
@@ -346,9 +360,77 @@
         date.textContent = new Date(review.created_at).toLocaleString("ko-KR");
 
         item.append(title, stars, author, content, date);
-        reviewList.appendChild(item);
+        container.appendChild(item);
       });
     }
+
+    // 정렬 기준에 맞춰 리뷰 배열을 정렬
+    function getSortedReviews(reviews, sortType) {
+      const sorted = [...reviews];
+
+      if (sortType === "oldest") {
+        sorted.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      } else if (sortType === "rating") {
+        sorted.sort(
+          (a, b) => b.rating - a.rating || new Date(b.created_at) - new Date(a.created_at)
+        );
+      } else {
+        sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      }
+
+      return sorted;
+    }
+
+    // 전체보기 모달 내용을 현재 정렬/그룹 설정에 맞춰 렌더링
+    function renderAllReviews() {
+      const sorted = getSortedReviews(allReviewsData, sortSelect.value);
+
+      if (!groupByRestaurantCheckbox.checked) {
+        renderReviewList(allReviewsList, sorted);
+        return;
+      }
+
+      allReviewsList.innerHTML = "";
+
+      if (sorted.length === 0) {
+        allReviewsList.textContent = "아직 등록된 리뷰가 없습니다.";
+        return;
+      }
+
+      const groups = new Map();
+      sorted.forEach((review) => {
+        const name = review.restaurants?.name || "음식점 미상";
+        if (!groups.has(name)) groups.set(name, []);
+        groups.get(name).push(review);
+      });
+
+      groups.forEach((reviews, name) => {
+        const section = document.createElement("div");
+        section.className = "restaurant-group";
+
+        const title = document.createElement("h3");
+        title.textContent = `${name} (${reviews.length})`;
+        section.appendChild(title);
+
+        const list = document.createElement("div");
+        section.appendChild(list);
+        renderReviewList(list, reviews);
+
+        allReviewsList.appendChild(section);
+      });
+    }
+
+    openAllReviewsBtn.addEventListener("click", () => {
+      renderAllReviews();
+      allReviewsModal.showModal();
+    });
+
+    closeAllReviewsBtn.addEventListener("click", () => {
+      allReviewsModal.close();
+    });
+
+    sortSelect.addEventListener("change", renderAllReviews);
+    groupByRestaurantCheckbox.addEventListener("change", renderAllReviews);
 
     // 리뷰 등록하기
     document.getElementById("reviewForm").addEventListener("submit", async (event) => {
