@@ -155,6 +155,67 @@
       border-bottom: 2px solid #333;
       padding-bottom: 6px;
     }
+
+    /* ===== 햄스터 메뉴 박사 (roulette.html에서 가져옴) ===== */
+    #speech {
+      position: relative;
+      width: fit-content;
+      max-width: 85%;
+      margin: 0 auto 14px;
+      padding: 12px 20px;
+      background: white;
+      border: 3px solid #ff9f43;
+      border-radius: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+    #speech::after {
+      content: "";
+      position: absolute;
+      bottom: -9px;
+      left: calc(50% - 8px);
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-right: 3px solid #ff9f43;
+      border-bottom: 3px solid #ff9f43;
+      transform: rotate(45deg);
+    }
+
+    .mascot {
+      display: block;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      animation: bounce 1.6s ease-in-out infinite;
+    }
+    .mascot .face {
+      display: none;
+    }
+    .mascot[data-mood="idle"] .face-idle,
+    .mascot[data-mood="think"] .face-think,
+    .mascot[data-mood="happy"] .face-happy {
+      display: inline;
+    }
+    .mascot[data-mood="think"] {
+      animation: think 0.6s ease-in-out infinite;
+    }
+    .mascot[data-mood="happy"] {
+      animation: jump 0.5s ease-out 3;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes think {
+      0%, 100% { transform: rotate(-6deg); }
+      50% { transform: rotate(6deg); }
+    }
+    @keyframes jump {
+      0%, 100% { transform: translateY(0) scale(1); }
+      20% { transform: translateY(3px) scale(1.08, 0.92); }
+      60% { transform: translateY(-28px) scale(0.96, 1.05); }
+    }
   </style>
 </head>
 
@@ -171,6 +232,54 @@
   <main>
     <h1>맛집 리뷰</h1>
     <p>방문한 음식점의 솔직한 후기를 남겨주세요!</p>
+
+    <!-- 마스코트: 안경 쓴 햄스터 메뉴 박사 (roulette.html과 동일) -->
+    <div id="speech" aria-live="polite"></div>
+    <svg id="mascot" class="mascot" data-mood="idle" viewBox="0 0 160 160" role="img" aria-label="마스코트 햄스터 메뉴 박사">
+      <circle cx="44" cy="40" r="19" fill="#d99a5b"/>
+      <circle cx="116" cy="40" r="19" fill="#d99a5b"/>
+      <circle cx="44" cy="40" r="10" fill="#ffc2b8"/>
+      <circle cx="116" cy="40" r="10" fill="#ffc2b8"/>
+      <ellipse cx="80" cy="91" rx="62" ry="58" fill="#e8ad6d"/>
+      <ellipse cx="80" cy="112" rx="45" ry="35" fill="#fff3df"/>
+      <ellipse cx="42" cy="103" rx="10" ry="6" fill="#ff9f8f"/>
+      <ellipse cx="118" cy="103" rx="10" ry="6" fill="#ff9f8f"/>
+
+      <!-- 평소 표정 -->
+      <g class="face face-idle">
+        <circle cx="57" cy="80" r="6" fill="#3b251a"/>
+        <circle cx="103" cy="80" r="6" fill="#3b251a"/>
+        <circle cx="59" cy="78" r="2" fill="white"/>
+        <circle cx="105" cy="78" r="2" fill="white"/>
+        <path d="M70 106 Q75 112 80 106 Q85 112 90 106" fill="none" stroke="#3b251a" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- 고민하는 표정 -->
+      <g class="face face-think">
+        <circle cx="60" cy="76" r="5" fill="#3b251a"/>
+        <circle cx="106" cy="76" r="5" fill="#3b251a"/>
+        <path d="M47 58 L67 54 M93 54 L113 61" stroke="#3b251a" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="80" cy="110" r="5" fill="#8a4b3c"/>
+        <path d="M137 52 Q148 68 137 70 Q126 68 137 52Z" fill="#8fd3ff"/>
+      </g>
+      <!-- 신난 표정 -->
+      <g class="face face-happy">
+        <path d="M49 83 Q57 71 65 83 M95 83 Q103 71 111 83" fill="none" stroke="#3b251a" stroke-width="4" stroke-linecap="round"/>
+        <path d="M66 103 Q80 130 94 103Z" fill="#8a4b3c"/>
+        <ellipse cx="80" cy="113" rx="7" ry="4" fill="#ff8787"/>
+      </g>
+
+      <!-- 코, 안경, 나비넥타이, 손 -->
+      <ellipse cx="80" cy="98" rx="5" ry="3.5" fill="#c96f62"/>
+      <g fill="none" stroke="#5b3a8c" stroke-width="3.5">
+        <circle cx="57" cy="79" r="17"/>
+        <circle cx="103" cy="79" r="17"/>
+        <path d="M74 76 Q80 72 86 76 M40 76 L24 70 M120 76 L136 70"/>
+      </g>
+      <path d="M80 137 L60 127 L60 149Z M80 137 L100 127 L100 149Z" fill="#ff7a2f"/>
+      <circle cx="80" cy="137" r="6" fill="#e8590c"/>
+      <circle cx="34" cy="127" r="10" fill="#e8ad6d"/>
+      <circle cx="126" cy="127" r="10" fill="#e8ad6d"/>
+    </svg>
 
     <section class="review-form">
       <h2>리뷰 작성하기</h2>
