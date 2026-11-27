@@ -77,6 +77,84 @@
     #message {
       margin-top: 12px;
     }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-outline {
+      padding: 8px 14px;
+      border: 1px solid #333;
+      border-radius: 7px;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #allReviewsModal {
+      width: 90%;
+      max-width: 700px;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: none;
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+    }
+
+    #allReviewsModal::backdrop {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    #allReviewsModal .close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      border: none;
+      background: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .review-controls {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .review-controls label {
+      margin-top: 0;
+      font-weight: bold;
+    }
+
+    .review-controls select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .group-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal !important;
+    }
+
+    .restaurant-group {
+      margin-top: 24px;
+    }
+
+    .restaurant-group h3 {
+      border-bottom: 2px solid #333;
+      padding-bottom: 6px;
+    }
   </style>
 </head>
 
@@ -139,9 +217,33 @@
     </section>
 
     <section>
-      <h2>방문자 리뷰</h2>
+      <div class="section-header">
+        <h2>방문자 리뷰</h2>
+        <button type="button" class="btn-outline" id="openAllReviews">전체보기</button>
+      </div>
       <div id="reviewList">리뷰를 불러오는 중입니다...</div>
     </section>
+
+    <dialog id="allReviewsModal" aria-labelledby="allReviewsTitle">
+      <button type="button" class="close" id="closeAllReviews" aria-label="닫기">✕</button>
+      <h2 id="allReviewsTitle">방문자 리뷰 전체보기</h2>
+
+      <div class="review-controls">
+        <label for="sortSelect">정렬</label>
+        <select id="sortSelect">
+          <option value="latest">최신순</option>
+          <option value="oldest">오래된순</option>
+          <option value="rating">별점 높은순</option>
+        </select>
+
+        <label class="group-toggle">
+          <input type="checkbox" id="groupByRestaurant">
+          음식점별로 보기
+        </label>
+      </div>
+
+      <div id="allReviewsList"></div>
+    </dialog>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -161,7 +263,15 @@
     const reviewList = document.getElementById("reviewList");
     const message = document.getElementById("message");
 
+    const openAllReviewsBtn = document.getElementById("openAllReviews");
+    const closeAllReviewsBtn = document.getElementById("closeAllReviews");
+    const allReviewsModal = document.getElementById("allReviewsModal");
+    const allReviewsList = document.getElementById("allReviewsList");
+    const sortSelect = document.getElementById("sortSelect");
+    const groupByRestaurantCheckbox = document.getElementById("groupByRestaurant");
+
     let restaurants = [];
+    let allReviewsData = [];
 
     // 음식점 목록 불러오기
     async function loadRestaurants() {
@@ -214,14 +324,20 @@
         return;
       }
 
-      reviewList.innerHTML = "";
+      allReviewsData = data;
+      renderReviewList(reviewList, data);
+    }
 
-      if (data.length === 0) {
-        reviewList.textContent = "아직 등록된 리뷰가 없습니다.";
+    // 리뷰 목록을 컨테이너에 렌더링
+    function renderReviewList(container, reviews) {
+      container.innerHTML = "";
+
+      if (reviews.length === 0) {
+        container.textContent = "아직 등록된 리뷰가 없습니다.";
         return;
       }
 
-      data.forEach((review) => {
+      reviews.forEach((review) => {
         const item = document.createElement("article");
         item.className = "review-item";
 
@@ -244,9 +360,77 @@
         date.textContent = new Date(review.created_at).toLocaleString("ko-KR");
 
         item.append(title, stars, author, content, date);
-        reviewList.appendChild(item);
+        container.appendChild(item);
       });
     }
+
+    // 정렬 기준에 맞춰 리뷰 배열을 정렬
+    function getSortedReviews(reviews, sortType) {
+      const sorted = [...reviews];
+
+      if (sortType === "oldest") {
+        sorted.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      } else if (sortType === "rating") {
+        sorted.sort(
+          (a, b) => b.rating - a.rating || new Date(b.created_at) - new Date(a.created_at)
+        );
+      } else {
+        sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      }
+
+      return sorted;
+    }
+
+    // 전체보기 모달 내용을 현재 정렬/그룹 설정에 맞춰 렌더링
+    function renderAllReviews() {
+      const sorted = getSortedReviews(allReviewsData, sortSelect.value);
+
+      if (!groupByRestaurantCheckbox.checked) {
+        renderReviewList(allReviewsList, sorted);
+        return;
+      }
+
+      allReviewsList.innerHTML = "";
+
+      if (sorted.length === 0) {
+        allReviewsList.textContent = "아직 등록된 리뷰가 없습니다.";
+        return;
+      }
+
+      const groups = new Map();
+      sorted.forEach((review) => {
+        const name = review.restaurants?.name || "음식점 미상";
+        if (!groups.has(name)) groups.set(name, []);
+        groups.get(name).push(review);
+      });
+
+      groups.forEach((reviews, name) => {
+        const section = document.createElement("div");
+        section.className = "restaurant-group";
+
+        const title = document.createElement("h3");
+        title.textContent = `${name} (${reviews.length})`;
+        section.appendChild(title);
+
+        const list = document.createElement("div");
+        section.appendChild(list);
+        renderReviewList(list, reviews);
+
+        allReviewsList.appendChild(section);
+      });
+    }
+
+    openAllReviewsBtn.addEventListener("click", () => {
+      renderAllReviews();
+      allReviewsModal.showModal();
+    });
+
+    closeAllReviewsBtn.addEventListener("click", () => {
+      allReviewsModal.close();
+    });
+
+    sortSelect.addEventListener("change", renderAllReviews);
+    groupByRestaurantCheckbox.addEventListener("change", renderAllReviews);
 
     // 리뷰 등록하기
     document.getElementById("reviewForm").addEventListener("submit", async (event) => {
