@@ -382,6 +382,17 @@
     let restaurants = [];
     let allReviewsData = [];
 
+    // 마스코트 말풍선/표정 (roulette.js의 say/setMood와 동일한 방식)
+    function say(text) {
+      document.getElementById("speech").textContent = text;
+    }
+
+    function setMood(mood) {
+      document.getElementById("mascot").setAttribute("data-mood", mood);
+    }
+
+    say("다녀온 맛집, 솔직한 후기를 남겨주세요!");
+
     // 음식점 목록 불러오기
     async function loadRestaurants() {
       const { data, error } = await supabaseClient
@@ -558,6 +569,8 @@
       const button = event.target.querySelector("button");
       button.disabled = true;
       message.textContent = "리뷰를 등록하고 있습니다...";
+      setMood("think");
+      say("음… 리뷰를 올리고 있어요 🥁");
 
       const { error } = await supabaseClient
         .from("reviews")
@@ -572,10 +585,14 @@
 
       if (error) {
         message.textContent = "등록에 실패했습니다: " + error.message;
+        setMood("idle");
+        say("앗, 등록에 실패했어요. 다시 시도해주세요!");
         return;
       }
 
       message.textContent = "리뷰가 등록되었습니다!";
+      setMood("happy");
+      say("리뷰 등록 완료! 다른 분들에게 도움이 될 거예요 🎉");
       document.getElementById("content").value = "";
       document.getElementById("rating").value = "";
 
