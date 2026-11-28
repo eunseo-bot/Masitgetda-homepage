@@ -1,0 +1,230 @@
+[hidden] {
+  display: none !important;
+}
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 24px;
+}
+.intro {
+  margin-bottom: 24px;
+}
+
+/* 지도 */
+.map-box {
+  overflow: hidden;
+  background: white;
+  border: 3px solid #ff9f43;
+  border-radius: 24px;
+  box-shadow: 0 8px 0 #e8842a;
+}
+.map-box iframe {
+  display: block;
+  width: 100%;
+  height: 460px;
+  border: 0;
+}
+.big-map {
+  display: block;
+  padding: 10px;
+  background: #ffe3c2;
+  font-weight: bold;
+}
+
+/* 필터 버튼 */
+.filters {
+  margin: 32px 0 8px;
+}
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.chip {
+  padding: 8px 16px;
+  border: 2px solid #ff9f43;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 4px 0 #e8842a;
+  color: #4a3426;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.chip:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #e8842a;
+}
+.chip.active {
+  background: #ff9f43;
+  font-weight: bold;
+}
+#area-chips .chip {
+  border-color: #f3c99b;
+  box-shadow: 0 4px 0 #e6b07a;
+  font-size: 0.85rem;
+}
+#area-chips .chip.active {
+  background: #ffe3c2;
+  border-color: #ff9f43;
+}
+.count {
+  color: #8a7568;
+  font-size: 0.9rem;
+}
+
+/* 맛집 카드 */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  text-align: left;
+}
+.shop-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
+}
+.shop-card:hover {
+  transform: translateY(-4px);
+}
+/* 사진 (메뉴 ↔ 가게 넘겨 보기) */
+.photo-box {
+  position: relative;
+  height: 190px;
+  background: #ffe3c2;
+}
+.photo-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-btn {
+  position: absolute;
+  top: calc(50% - 16px);
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #4a3426;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.photo-btn.prev {
+  left: 8px;
+}
+.photo-btn.next {
+  right: 8px;
+}
+.shop-card:hover .photo-btn,
+.photo-btn:focus-visible {
+  opacity: 1;
+}
+.dots {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+}
+.dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+}
+.dots span.on {
+  background: #ff9f43;
+}
+/* 터치 화면에서는 버튼 항상 보이기 */
+@media (hover: none) {
+  .photo-btn {
+    opacity: 1;
+  }
+}
+.shop-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 14px 16px 18px;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: #fff1dc;
+  font-size: 0.8rem;
+}
+.tag.area {
+  background: #f1f1f1;
+  color: #6b5a4f;
+}
+.shop-body h3 {
+  margin: 10px 0 4px;
+  font-size: 1.1rem;
+}
+.menu {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+}
+.address {
+  flex: 1;
+  margin: 0 0 14px;
+  color: #8a7568;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
+.btn {
+  flex: 1;
+  padding: 9px 0;
+  border: 2px solid #ff9f43;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 4px 0 #e8842a;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #e8842a;
+}
+.main-btn {
+  background: #ff9f43;
+  font-weight: bold;
+}
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+.notice {
+  margin-top: 28px;
+  color: #8a7568;
+  font-size: 0.8rem;
+}
+
+/* 모바일 */
+@media (max-width: 600px) {
+  .map-box iframe {
+    height: 340px;
+  }
+}

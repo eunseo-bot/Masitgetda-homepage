@@ -599,9 +599,19 @@
       await loadReviews();
     });
 
+    // 맛집 지도에서 "리뷰 쓰기"로 들어오면 (review.html?restaurant=번호) 그 음식점을 미리 선택
+    function selectRestaurantFromUrl() {
+      const id = new URLSearchParams(location.search).get("restaurant");
+      if (!id || !restaurants.some((item) => String(item.id) === id)) return;
+
+      restaurantSelect.value = id;
+      restaurantSelect.dispatchEvent(new Event("change"));
+    }
+
     // 페이지 처음 열릴 때 실행
     async function initialize() {
       await loadRestaurants();
+      selectRestaurantFromUrl();
       await loadReviews();
     }
 

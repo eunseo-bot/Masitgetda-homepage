@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>맛집 지도 - 맛있겠다</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="map.css">
 </head>
 <body>
   <header>
@@ -17,8 +18,32 @@
   </header>
 
   <main>
-    <h1>맛집 지도</h1>
-    <p>준비 중이에요!</p>
+    <h1>🗺️ 맛집 지도</h1>
+    <p class="intro">학교 주변에서 직접 찾은 맛집 12곳을 지도와 목록으로 한눈에 확인해 보세요!</p>
+
+    <!-- 1. 구글 내 지도(My Maps)에 저장한 맛집 리스트 -->
+    <section class="map-box">
+      <iframe
+        src="https://www.google.com/maps/d/embed?mid=1quUpOd9xDGvFmsh_cba46C8nDKKZnDE&ehbc=2E312F"
+        title="학교 주변 맛집 지도"
+        loading="lazy"
+        allowfullscreen></iframe>
+      <a class="big-map" href="https://www.google.com/maps/d/viewer?mid=1quUpOd9xDGvFmsh_cba46C8nDKKZnDE" target="_blank" rel="noopener">큰 지도로 보기 ↗</a>
+    </section>
+
+    <!-- 2. 필터 -->
+    <section class="filters">
+      <div class="chip-row" id="category-chips" aria-label="음식 종류"></div>
+      <div class="chip-row" id="area-chips" aria-label="지역"></div>
+      <p class="count" id="count" aria-live="polite"></p>
+    </section>
+
+    <!-- 3. 맛집 목록 (map.js가 채워 넣음) -->
+    <section class="shop-grid" id="shop-grid"></section>
+
+    <p class="notice">방문 전에 영업시간을 꼭 확인해 주세요.</p>
   </main>
+
+  <script src="map.js"></script>
 </body>
 </html>
