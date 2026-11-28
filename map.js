@@ -7,7 +7,7 @@ const shops = [
   { id: 2, category: "일식", name: "타이칸라멘", menu: "돈코츠 라멘", photos: ["images/menu02.jpg", "images/restaurant02.jpeg"], address: "경기 안산시 단원구 고잔2길 71 101, 102호", link: "https://naver.me/IgMwxtD1" },
   { id: 3, category: "카페", name: "또넛", menu: "통망고 베이글 산도", photos: ["images/menu03.jpg", "images/restaurant03.jpeg"], address: "경기 안산시 단원구 광덕대로 174 108, 109호", link: "https://naver.me/F6QRvzEq" },
   { id: 4, category: "일식", name: "Yumei", menu: "유라멘", photos: ["images/menu04.jpg", "images/restaurant04.jpeg"], address: "경기 안산시 상록구 학사2길 20", link: "https://naver.me/GO6rK2yb" },
-  { id: 5, category: "양식", name: "앤의식탁", menu: "스테이크 덮밥", photos: ["images/menu05.jpg", "images/restaurant05.jpeg"], address: "경기 안산시 상록구 성안길 84-1 102호", link: "https://naver.me/Ix0mzIou" },
+  { id: 5, category: "양식", name: "앤의 식탁", menu: "스테이크 덮밥", photos: ["images/menu05.jpg", "images/restaurant05.jpeg"], address: "경기 안산시 상록구 성안길 84-1 102호", link: "https://naver.me/Ix0mzIou" },
   { id: 6, category: "중식", name: "짬뽕지존 고잔점", menu: "해물왕짬뽕", photos: ["images/restaurant06.jpeg"], address: "경기 안산시 단원구 광덕대로 138 골든에이스프라자 1층 105호~110호", link: "https://naver.me/FDcpalCB" },
   { id: 7, category: "중식", name: "보배반점 안산한양대점", menu: "크림짬뽕", photos: ["images/restaurant07.jpeg"], address: "경기 안산시 상록구 한양대학로 66 104.105.106호", link: "https://naver.me/FBMmZQPW" },
   { id: 8, category: "양식", name: "투파인드피터 한양대에리카점", menu: "스파이시 크레비 파스타", photos: ["images/menu08.jpg", "images/restaurant08.jpeg"], address: "경기 안산시 상록구 성안길 97 1층", link: "https://naver.me/xIFT72YL" },
