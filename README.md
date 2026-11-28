@@ -9,7 +9,7 @@
 ## 주요 기능
 
 - **메인 페이지** (`index.html`) — 서비스 소개 및 메뉴 카드
-- **맛집 지도** (`map.html`) — 학교 주변 맛집 지도 (준비 중)
+- **맛집 지도** (`map.html`, `map.js`, `map.css`) — 구글 내 지도로 맛집 12곳 위치를 보여주고, 음식 종류·지역별 필터와 맛집 카드(대표 메뉴, 주소, 네이버 지도 링크) 제공
 - **메뉴 룰렛** (`roulette.html`, `roulette.js`, `roulette.css`) — 밥/카페 스테이지를 골라 룰렛을 돌리면 마스코트가 메뉴를 추천
 - **맛집 리뷰** (`review.html`) — Supabase와 연동해 음식점 선택, 별점, 리뷰 작성 및 조회 가능
 
@@ -18,6 +18,8 @@
 ```
 index.html     메인 페이지
 map.html       맛집 지도
+map.css        맛집 지도 페이지 스타일
+map.js         맛집 목록·필터 로직
 roulette.html  메뉴 룰렛 게임
 review.html    맛집 리뷰 작성/조회
 style.css      공통 스타일
