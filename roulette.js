@@ -263,8 +263,10 @@ $("meal-btn").addEventListener("click", () => startStage("meal"));
 $("cafe-btn").addEventListener("click", () => startStage("cafe"));
 $("home-btn").addEventListener("click", goHome);
 $("spin").addEventListener("click", spin);
-$("close-btn").addEventListener("click", () => {
-  $("popup").close();
+$("close-btn").addEventListener("click", () => $("popup").close());
+// ✕ 버튼이든 Esc 키든 팝업이 닫히면 햄스터를 평소 상태로 (다시 돌리는 중이면 그대로)
+$("popup").addEventListener("close", () => {
+  if (spinning) return;
   setMood("idle");
   sayGreeting(mode);
 });
