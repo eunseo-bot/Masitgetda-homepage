@@ -1,19 +1,20 @@
 // 1. 맛집 정보 (엑셀로 정리한 리스트 + 룰렛과 같은 대표 메뉴)
+//    id: 리뷰 페이지(Supabase restaurants 테이블)의 음식점 번호
 //    photos: 첫 번째 = 메뉴 사진, 두 번째 = 가게 사진 (‹ › 버튼으로 넘겨 보기)
 //    area: 상록구 = 학교 앞, 단원구 = 고잔·중앙역
 const shops = [
-  { category: "한식", name: "중앙솥뚜껑삼겹살 안산중앙점", menu: "삼겹살", photos: ["images/restaurant01.jpeg"], address: "경기 안산시 단원구 고잔1길 49 113, 114호", link: "https://naver.me/FJOCXG9v" },
-  { category: "일식", name: "타이칸라멘", menu: "돈코츠 라멘", photos: ["images/menu02.jpg", "images/restaurant02.jpeg"], address: "경기 안산시 단원구 고잔2길 71 101, 102호", link: "https://naver.me/IgMwxtD1" },
-  { category: "카페", name: "또넛", menu: "통망고 베이글 산도", photos: ["images/menu03.jpg", "images/restaurant03.jpeg"], address: "경기 안산시 단원구 광덕대로 174 108, 109호", link: "https://naver.me/F6QRvzEq" },
-  { category: "일식", name: "Yumei", menu: "유라멘", photos: ["images/menu04.jpg", "images/restaurant04.jpeg"], address: "경기 안산시 상록구 학사2길 20", link: "https://naver.me/GO6rK2yb" },
-  { category: "양식", name: "앤의식탁", menu: "스테이크 덮밥", photos: ["images/menu05.jpg", "images/restaurant05.jpeg"], address: "경기 안산시 상록구 성안길 84-1 102호", link: "https://naver.me/Ix0mzIou" },
-  { category: "중식", name: "짬뽕지존 고잔점", menu: "해물왕짬뽕", photos: ["images/restaurant06.jpeg"], address: "경기 안산시 단원구 광덕대로 138 골든에이스프라자 1층 105호~110호", link: "https://naver.me/FDcpalCB" },
-  { category: "중식", name: "보배반점 안산한양대점", menu: "크림짬뽕", photos: ["images/restaurant07.jpeg"], address: "경기 안산시 상록구 한양대학로 66 104.105.106호", link: "https://naver.me/FBMmZQPW" },
-  { category: "양식", name: "투파인드피터 한양대에리카점", menu: "스파이시 크레비 파스타", photos: ["images/menu08.jpg", "images/restaurant08.jpeg"], address: "경기 안산시 상록구 성안길 97 1층", link: "https://naver.me/xIFT72YL" },
-  { category: "카페", name: "오쏘커피", menu: "오쏘라떼", photos: ["images/menu09.jpg", "images/restaurant09.jpeg"], address: "경기 안산시 상록구 한양대학로 27 1층", link: "https://naver.me/5Jq29V7P" },
-  { category: "카페", name: "묵커피바", menu: "무화과쑥크림보틀케이크", photos: ["images/menu10.jpg", "images/restaurant10.jpeg"], address: "경기 안산시 상록구 성안1길 25 1층 101호", link: "https://naver.me/GcASsnj5" },
-  { category: "카페", name: "좋은아침", menu: "햄치즈 크라상 페스츄리", photos: ["images/menu11.jpg", "images/restaurant11.jpeg"], address: "경기 안산시 단원구 광덕동로 39 대우프라자", link: "https://naver.me/FmGSz2tN" },
-  { category: "카페", name: "디그리 고잔점", menu: "뺑 오 헤이즐넛쇼콜라", photos: ["images/menu12.jpg", "images/restaurant12.jpeg"], address: "경기 안산시 단원구 광덕대로 137 A동 103호, 104호, 105호, 109호", link: "https://naver.me/FoX3JEXr" }
+  { id: 1, category: "한식", name: "중앙솥뚜껑삼겹살 안산중앙점", menu: "삼겹살", photos: ["images/restaurant01.jpeg"], address: "경기 안산시 단원구 고잔1길 49 113, 114호", link: "https://naver.me/FJOCXG9v" },
+  { id: 2, category: "일식", name: "타이칸라멘", menu: "돈코츠 라멘", photos: ["images/menu02.jpg", "images/restaurant02.jpeg"], address: "경기 안산시 단원구 고잔2길 71 101, 102호", link: "https://naver.me/IgMwxtD1" },
+  { id: 3, category: "카페", name: "또넛", menu: "통망고 베이글 산도", photos: ["images/menu03.jpg", "images/restaurant03.jpeg"], address: "경기 안산시 단원구 광덕대로 174 108, 109호", link: "https://naver.me/F6QRvzEq" },
+  { id: 4, category: "일식", name: "Yumei", menu: "유라멘", photos: ["images/menu04.jpg", "images/restaurant04.jpeg"], address: "경기 안산시 상록구 학사2길 20", link: "https://naver.me/GO6rK2yb" },
+  { id: 5, category: "양식", name: "앤의식탁", menu: "스테이크 덮밥", photos: ["images/menu05.jpg", "images/restaurant05.jpeg"], address: "경기 안산시 상록구 성안길 84-1 102호", link: "https://naver.me/Ix0mzIou" },
+  { id: 6, category: "중식", name: "짬뽕지존 고잔점", menu: "해물왕짬뽕", photos: ["images/restaurant06.jpeg"], address: "경기 안산시 단원구 광덕대로 138 골든에이스프라자 1층 105호~110호", link: "https://naver.me/FDcpalCB" },
+  { id: 7, category: "중식", name: "보배반점 안산한양대점", menu: "크림짬뽕", photos: ["images/restaurant07.jpeg"], address: "경기 안산시 상록구 한양대학로 66 104.105.106호", link: "https://naver.me/FBMmZQPW" },
+  { id: 8, category: "양식", name: "투파인드피터 한양대에리카점", menu: "스파이시 크레비 파스타", photos: ["images/menu08.jpg", "images/restaurant08.jpeg"], address: "경기 안산시 상록구 성안길 97 1층", link: "https://naver.me/xIFT72YL" },
+  { id: 9, category: "카페", name: "오쏘커피", menu: "오쏘라떼", photos: ["images/menu09.jpg", "images/restaurant09.jpeg"], address: "경기 안산시 상록구 한양대학로 27 1층", link: "https://naver.me/5Jq29V7P" },
+  { id: 10, category: "카페", name: "묵커피바", menu: "무화과쑥크림보틀케이크", photos: ["images/menu10.jpg", "images/restaurant10.jpeg"], address: "경기 안산시 상록구 성안1길 25 1층 101호", link: "https://naver.me/GcASsnj5" },
+  { id: 11, category: "카페", name: "좋은아침", menu: "햄치즈 크라상 페스츄리", photos: ["images/menu11.jpg", "images/restaurant11.jpeg"], address: "경기 안산시 단원구 광덕동로 39 대우프라자", link: "https://naver.me/FmGSz2tN" },
+  { id: 12, category: "카페", name: "디그리 고잔점", menu: "뺑 오 헤이즐넛쇼콜라", photos: ["images/menu12.jpg", "images/restaurant12.jpeg"], address: "경기 안산시 단원구 광덕대로 137 A동 103호, 104호, 105호, 109호", link: "https://naver.me/FoX3JEXr" }
 ];
 
 // 2. 필터 버튼 목록
@@ -102,7 +103,7 @@ function makeCard(shop) {
       <p class="address">${shop.address}</p>
       <div class="actions">
         <a class="btn main-btn" href="${shop.link}" target="_blank" rel="noopener">네이버 지도</a>
-        <a class="btn" href="review.html">리뷰 쓰기</a>
+        <a class="btn" href="review.html?restaurant=${shop.id}">리뷰 쓰기</a>
       </div>
     </div>`;
 
