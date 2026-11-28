@@ -1,17 +1,17 @@
 // 1. 가게 정보: [분류, 이름, 대표 메뉴, 사진, 주소, 네이버 지도 링크]
 const shops = [
-  ["한식", "중앙솥뚜껑삼겹살 안산중앙점", "삼겹살", "sikdang1.jpg", "경기 안산시 단원구 고잔1길 49 113, 114호", "https://naver.me/FJOCXG9v"],
-  ["일식", "타이칸라멘", "돈코츠 라멘", "sikdang2.jpg", "경기 안산시 단원구 고잔2길 71 101, 102호", "https://naver.me/IgMwxtD1"],
-  ["카페", "또넛", "통망고 베이글 산도", "sikdang3.jpg", "경기 안산시 단원구 광덕대로 174 108, 109호", "https://naver.me/F6QRvzEq"],
-  ["일식", "Yumei", "유라멘", "sikdang4.jpg", "경기 안산시 상록구 학사2길 20", "https://naver.me/GO6rK2yb"],
-  ["양식", "앤의식탁", "스테이크 덮밥", "sikdang5.jpg", "경기 안산시 상록구 성안길 84-1 102호", "https://naver.me/Ix0mzIou"],
-  ["중식", "짬뽕지존 고잔점", "해물왕짬뽕", "sikdang6.jpg", "경기 안산시 단원구 광덕대로 138 골든에이스프라자 1층 105호~110호", "https://naver.me/FDcpalCB"],
-  ["중식", "보배반점 안산한양대점", "크림짬뽕", "sikdang7.jpg", "경기 안산시 상록구 한양대학로 66 104.105.106호", "https://naver.me/FBMmZQPW"],
-  ["양식", "투파인드피터 한양대에리카점", "스파이시 크레비 파스타", "sikdang8.jpg", "경기 안산시 상록구 성안길 97 1층", "https://naver.me/xIFT72YL"],
-  ["카페", "오쏘커피", "오쏘라떼", "sikdang9.jpg", "경기 안산시 상록구 한양대학로 27 1층", "https://naver.me/5Jq29V7P"],
-  ["카페", "묵커피바", "무화과쑥크림보틀케이크", "sikdang10.jpg", "경기 안산시 상록구 성안1길 25 1층 101호", "https://naver.me/GcASsnj5"],
-  ["카페", "좋은아침", "햄치즈 크라상 페스츄리", "sikdang11.jpg", "경기 안산시 단원구 광덕동로 39 대우프라자", "https://naver.me/FmGSz2tN"],
-  ["카페", "디그리 고잔점", "뺑 오 헤이즐넛쇼콜라", "sikdang12.jpg", "경기 안산시 단원구 광덕대로 137 A동 103호, 104호, 105호, 109호 디그리 고잔점", "https://naver.me/FoX3JEXr"]
+  ["한식", "중앙솥뚜껑삼겹살 안산중앙점", "삼겹살", "restaurant01.jpeg", "경기 안산시 단원구 고잔1길 49 113, 114호", "https://naver.me/FJOCXG9v"],
+  ["일식", "타이칸라멘", "돈코츠 라멘", "restaurant02.jpeg", "경기 안산시 단원구 고잔2길 71 101, 102호", "https://naver.me/IgMwxtD1"],
+  ["카페", "또넛", "통망고 베이글 산도", "restaurant03.jpeg", "경기 안산시 단원구 광덕대로 174 108, 109호", "https://naver.me/F6QRvzEq"],
+  ["일식", "Yumei", "유라멘", "restaurant04.jpeg", "경기 안산시 상록구 학사2길 20", "https://naver.me/GO6rK2yb"],
+  ["양식", "앤의 식탁", "스테이크 덮밥", "restaurant05.jpeg", "경기 안산시 상록구 성안길 84-1 102호", "https://naver.me/Ix0mzIou"],
+  ["중식", "짬뽕지존 고잔점", "해물왕짬뽕", "restaurant06.jpeg", "경기 안산시 단원구 광덕대로 138 골든에이스프라자 1층 105호~110호", "https://naver.me/FDcpalCB"],
+  ["중식", "보배반점 안산한양대점", "크림짬뽕", "restaurant07.jpeg", "경기 안산시 상록구 한양대학로 66 104.105.106호", "https://naver.me/FBMmZQPW"],
+  ["양식", "투파인드피터 한양대에리카점", "스파이시 크레비 파스타", "restaurant08.jpeg", "경기 안산시 상록구 성안길 97 1층", "https://naver.me/xIFT72YL"],
+  ["카페", "오쏘커피", "오쏘라떼", "restaurant09.jpeg", "경기 안산시 상록구 한양대학로 27 1층", "https://naver.me/5Jq29V7P"],
+  ["카페", "묵커피바", "무화과쑥크림보틀케이크", "restaurant10.jpeg", "경기 안산시 상록구 성안1길 25 1층 101호", "https://naver.me/GcASsnj5"],
+  ["카페", "좋은아침", "햄치즈 크라상 페스츄리", "restaurant11.jpeg", "경기 안산시 단원구 광덕동로 39 대우프라자", "https://naver.me/FmGSz2tN"],
+  ["카페", "디그리 고잔점", "뺑 오 헤이즐넛쇼콜라", "restaurant12.jpeg", "경기 안산시 단원구 광덕대로 137 A동 103호, 104호, 105호, 109호", "https://naver.me/FoX3JEXr"]
 ];
 
 // 2. 음식 종류 (원판 색과 결과 멘트)
@@ -263,8 +263,10 @@ $("meal-btn").addEventListener("click", () => startStage("meal"));
 $("cafe-btn").addEventListener("click", () => startStage("cafe"));
 $("home-btn").addEventListener("click", goHome);
 $("spin").addEventListener("click", spin);
-$("close-btn").addEventListener("click", () => {
-  $("popup").close();
+$("close-btn").addEventListener("click", () => $("popup").close());
+// ✕ 버튼이든 Esc 키든 팝업이 닫히면 햄스터를 평소 상태로 (다시 돌리는 중이면 그대로)
+$("popup").addEventListener("close", () => {
+  if (spinning) return;
   setMood("idle");
   sayGreeting(mode);
 });
